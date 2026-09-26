@@ -1,0 +1,65 @@
+{
+  "summary": {
+    "total_estimated_effort": "3 large, 2 medium, 1 small across 7 modules",
+    "high_risk_count": 4,
+    "low_risk_count": 1
+  },
+  "modules": [
+    {
+      "module_name": "CustomerOrder_Entities",
+      "risk_tier": "LOW",
+      "effort_estimate": "small",
+      "recommended_replacement": "Keep entity classes as-is; remove virtual keyword from navigation properties for EF Core explicit/eager loading; no framework API changes required",
+      "migration_order": 1,
+      "needs_verification": false
+    },
+    {
+      "module_name": "IOrderService",
+      "risk_tier": "HIGH",
+      "effort_estimate": "large",
+      "recommended_replacement": "Replace WCF ServiceContract/OperationContract/DataContract attributes with ASP.NET Core controller interface or define gRPC proto contract; migrate OrderDto and PlaceOrderRequest to plain C# records with System.Text.Json",
+      "migration_order": 2,
+      "needs_verification": false
+    },
+    {
+      "module_name": "AppDbContext",
+      "risk_tier": "MEDIUM",
+      "effort_estimate": "medium",
+      "recommended_replacement": "Migrate Entity Framework 6 DbContext to EF Core DbContext (Microsoft.EntityFrameworkCore); replace parameterless constructor with IConfiguration-injected connection string; add explicit .Include() calls to fix N+1 queries; move OrderReportService class to Services namespace",
+      "migration_order": 3,
+      "needs_verification": false
+    },
+    {
+      "module_name": "OrderReportService",
+      "risk_tier": "MEDIUM",
+      "effort_estimate": "medium",
+      "recommended_replacement": "Move class from Models/AppDbContext.cs to Services/; replace direct DbContext instantiation with constructor injection; fix N+1 query by adding .Include(o => o.Customer) eager-load call",
+      "migration_order": 4,
+      "needs_verification": false
+    },
+    {
+      "module_name": "OrderService",
+      "risk_tier": "HIGH",
+      "effort_estimate": "large",
+      "recommended_replacement": "Rewrite as ASP.NET Core service class registered with DI container; remove WCF ServiceBehavior/InstanceContextMode.Single; inject AppDbContext via constructor; replace log4net 1.x with Microsoft.Extensions.Logging ILogger; convert all methods to async Task; add proper exception propagation instead of swallowing",
+      "migration_order": 5,
+      "needs_verification": false
+    },
+    {
+      "module_name": "OrdersController",
+      "risk_tier": "HIGH",
+      "effort_estimate": "large",
+      "recommended_replacement": "Rewrite as ASP.NET Core ControllerBase; replace System.Web.Mvc.Controller base class; replace HttpContext.Current static access with injected IHttpContextAccessor; replace Session with IDistributedCache or TempData; replace Application cache with IMemoryCache; remove ViewBag in favour of strongly-typed ViewModels; add antiforgery via ASP.NET Core built-in middleware",
+      "migration_order": 6,
+      "needs_verification": false
+    },
+    {
+      "module_name": "WebConfig",
+      "risk_tier": "HIGH",
+      "effort_estimate": "medium",
+      "recommended_replacement": "Migrate Web.config to appsettings.json with IConfiguration; move connection string to environment variable or Azure Key Vault / user-secrets; remove system.serviceModel WCF block; replace Forms authentication with ASP.NET Core cookie authentication middleware; remove hardcoded PaymentGatewayApiKey and store in secrets manager",
+      "migration_order": 7,
+      "needs_verification": false
+    }
+  ]
+}

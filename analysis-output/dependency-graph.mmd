@@ -1,0 +1,43 @@
+flowchart LR
+    subgraph Controllers[Controllers]
+        OrdersController[OrdersController - HIGH]
+    end
+
+    subgraph Services[Services]
+        IOrderService[IOrderService - HIGH]
+        OrderService[OrderService - HIGH]
+    end
+
+    subgraph Models[Models]
+        AppDbContext[AppDbContext - MEDIUM]
+        OrderReportService[OrderReportService - MEDIUM]
+        CustomerOrder_Entities[CustomerOrder_Entities - LOW]
+    end
+
+    subgraph Config[Config]
+        WebConfig[WebConfig - HIGH]
+    end
+
+    subgraph External[External]
+        SystemWeb[System.Web - HIGH]
+        SystemServiceModel[System.ServiceModel WCF - HIGH]
+        EF6[EntityFramework 6.4.4 - HIGH]
+        log4net_1x[log4net 1.2.10 - HIGH]
+        SqlServer[SQL Server OrdersDb - MEDIUM]
+    end
+
+    OrdersController --> IOrderService
+    OrdersController --> OrderService
+    OrdersController --> OrderReportService
+    OrdersController --> SystemWeb
+    OrderService --> IOrderService
+    OrderService --> AppDbContext
+    OrderService --> log4net_1x
+    OrderService --> SystemServiceModel
+    IOrderService --> SystemServiceModel
+    AppDbContext --> CustomerOrder_Entities
+    AppDbContext --> EF6
+    AppDbContext --> SqlServer
+    OrderReportService --> AppDbContext
+    WebConfig --> SystemServiceModel
+    WebConfig --> SqlServer
