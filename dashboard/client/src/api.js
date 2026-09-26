@@ -1,4 +1,6 @@
-const BASE = import.meta.env.VITE_API_BASE;
+// In production the server serves the client, so BASE is empty (same-origin).
+// Set VITE_API_BASE only when running the dev client against a remote server.
+const BASE = import.meta.env.VITE_API_BASE ?? "";
 
 async function get(path) {
   const res = await fetch(`${BASE}/api/analysis${path}`);

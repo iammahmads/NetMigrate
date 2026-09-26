@@ -40,13 +40,6 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-// ── Serve React client in production ─────────────────────────────────────────
-const clientDist = path.resolve(__dirname, "../client/dist");
-app.use(express.static(clientDist));
-app.get("*", (_req, res) => {
-  res.sendFile(path.join(clientDist, "index.html"));
-});
-
 app.listen(PORT, () => {
   console.log(`NetMigrate API server listening on http://localhost:${PORT}`);
 
