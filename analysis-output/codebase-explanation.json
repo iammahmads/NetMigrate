@@ -1,0 +1,56 @@
+[
+  {
+    "module": "Web.config",
+    "purpose": "Central configuration file for the ASP.NET + WCF application. Declares the database connection string, application settings (including a hardcoded payment gateway API key), Forms authentication, and the WCF service endpoint binding.",
+    "connections": ["AppDbContext", "OrderService", "IOrderService"],
+    "plain_english_summary": "This is the app's master settings file. It tells the app how to connect to the SQL Server database, what URL the WCF order service is exposed on, and how to authenticate users. Several values that should be secrets — the database password and the payment gateway API key — are stored here in plain text, which is a security risk that should be addressed during migration."
+  },
+  {
+    "module": "LegacyApp.csproj",
+    "purpose": "The MSBuild project file that defines the application's build configuration, target framework (.NET Framework 4.7.2), and NuGet package dependencies (ASP.NET MVC 5, Entity Framework 6, System.ServiceModel for WCF, and log4net 1.2.10).",
+    "connections": ["Web.config"],
+    "plain_english_summary": "This file is the blueprint the compiler uses to build the app. It lists every external library the project depends on. The key libraries — MVC 5, Entity Framework 6, System.ServiceModel, and log4net — are all tied to the classic .NET Framework and do not run on modern .NET (5/6/7/8), which is the root cause of most migration complexity."
+  },
+  {
+    "module": "Customer",
+    "purpose": "Entity Framework 6 data model representing a customer in the database. Holds identity and contact fields and owns a navigable collection of Orders.",
+    "connections": ["Order", "AppDbContext"],
+    "plain_english_summary": "This class maps to the Customers table in the database. Each Customer has an Id, Name, Email, and creation timestamp. The virtual Orders property lets Entity Framework automatically load a customer's orders on demand (lazy-loading), though this can cause performance problems if not used carefully."
+  },
+  {
+    "module": "Order",
+    "purpose": "Entity Framework 6 data model representing a purchase order. Holds order date, total amount, status, and a foreign-key reference back to the owning Customer.",
+    "connections": ["Customer", "AppDbContext", "OrderDto"],
+    "plain_english_summary": "This class maps to the Orders table in the database. Each Order belongs to one Customer (via CustomerId) and records when the order was placed, how much it was for, and its current status. The virtual Customer navigation property enables lazy-loading of the related customer row, which, when used in a loop, generates one database query per order — a known performance bottleneck in this codebase."
+  },
+  {
+    "module": "AppDbContext",
+    "purpose": "Entity Framework 6 DbContext that acts as the gateway between the application code and the SQL Server database. Exposes DbSet collections for Customer and Order and reads the connection string from Web.config.",
+    "connections": ["Customer", "Order", "Web.config", "OrderReportService", "OrderService"],
+    "plain_english_summary": "This class is the application's database session. Any code that needs to read or write customers and orders goes through AppDbContext. It connects to SQL Server using the connection string named 'AppDb' from Web.config. Entity Framework 6, which powers this class, requires a separate migration path to Entity Framework Core when modernising to .NET 5+."
+  },
+  {
+    "module": "OrderReportService",
+    "purpose": "A helper service co-located in AppDbContext.cs that queries the Orders table and returns a flat list of human-readable summary strings (one per order) for display in the UI.",
+    "connections": ["AppDbContext", "Order", "Customer", "OrdersController"],
+    "plain_english_summary": "This service's job is to produce a printable summary of all orders, formatted as 'CustomerName — $Total'. It is called by the Orders list page. However, it contains a classic N+1 query problem: it loads all orders in one query but then fetches each order's customer name in a separate database round-trip, meaning 500 orders produce 501 database calls. This should be fixed with eager-loading using .Include() during migration."
+  },
+  {
+    "module": "IOrderService",
+    "purpose": "WCF ServiceContract interface that defines the public operations of the order service: retrieving a single order, retrieving all orders for a customer, and placing a new order. Also declares the OrderDto and PlaceOrderRequest data transfer objects.",
+    "connections": ["OrderService", "OrdersController", "Order", "Customer"],
+    "plain_english_summary": "This interface is the formal contract for the WCF order service — it lists what operations the service exposes and what data shapes it sends and receives. WCF (Windows Communication Foundation) is the .NET Framework's older remote-calling technology; it is not supported in modern .NET without third-party libraries, so this interface will need to be replaced by an ASP.NET Core Web API or gRPC equivalent during migration."
+  },
+  {
+    "module": "OrderService",
+    "purpose": "WCF service implementation that fulfils the IOrderService contract. Handles fetching orders by ID, listing orders for a customer, and persisting new orders to the database. Uses log4net for logging and Entity Framework 6 for data access.",
+    "connections": ["IOrderService", "AppDbContext", "Order", "Customer", "Web.config"],
+    "plain_english_summary": "This is the actual business logic that runs when a caller invokes the WCF order service. It talks directly to the database using Entity Framework, maps database rows to OrderDto objects for the caller, and logs activity with log4net. Several issues are present: it is configured as a single-instance, single-threaded WCF service (a concurrency hazard under load), it has the same N+1 lazy-loading problem as OrderReportService, it silently swallows exceptions by catching all errors and returning null, and it uses DateTime.Now instead of UTC time."
+  },
+  {
+    "module": "OrdersController",
+    "purpose": "ASP.NET MVC 5 controller that handles HTTP requests for the /Orders routes. Exposes three actions: Index (order list), Details (single order view), and Place (submit a new order).",
+    "connections": ["IOrderService", "OrderService", "OrderReportService", "AppDbContext", "Web.config"],
+    "plain_english_summary": "This controller is the front door for the orders section of the web application. When a user visits the orders page, views an order, or submits a new one, this code runs. It relies heavily on static System.Web APIs (HttpContext.Current, Session, Application cache) that are incompatible with modern .NET, meaning these interactions must be refactored to use dependency-injected equivalents during migration. It also creates its own service instances with 'new' rather than having them injected, which makes the code harder to test and maintain."
+  }
+]
