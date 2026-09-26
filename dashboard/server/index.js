@@ -54,12 +54,12 @@ app.listen(PORT, () => {
   console.log(`NetMigrate API server listening on http://localhost:${PORT}`);
 
   // ── Keep-alive ping every 5 minutes ────────────────────────────────────────
-  const HOST = process.env.HOST;
-  if (HOST) {
-    setInterval(() => {
-      fetch(`${HOST}/api/health`)
-        .then((r) => console.log(`[keep-alive] /api/health → ${r.status}`))
-        .catch((err) => console.error("[keep-alive] ping failed:", err.message));
-    }, 5 * 60 * 1000);
-  }
+  // const HOST = process.env.HOST;
+  // if (HOST) {
+  //   setInterval(() => {
+  //     fetch(`${HOST}/api/health`)
+  //       .then((r) => console.log(`[keep-alive] /api/health → ${r.status}`))
+  //       .catch((err) => console.error("[keep-alive] ping failed:", err.message));
+  //   }, 5 * 60 * 1000);
+  // }
 });
