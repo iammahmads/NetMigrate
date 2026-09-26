@@ -1,0 +1,13 @@
+{
+  "name": "netmigrate-dashboard",
+  "version": "1.0.0",
+  "description": "NetMigrate — React + Node/Express dashboard workspace",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix dashboard/server && npm install --prefix dashboard/client",
+    "dev:server": "npm run dev --prefix dashboard/server",
+    "dev:client": "npm run dev --prefix dashboard/client",
+    "build:client": "npm run build --prefix dashboard/client",
+    "start:server": "npm start --prefix dashboard/server"
+  }
+}
