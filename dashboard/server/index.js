@@ -12,7 +12,20 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ── Middleware ──────────────────────────────────────────────────────────────
-app.use(cors());
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
+  : [];
+
+app.use(
+  cors({
+    origin: allowedOrigins.length
+      ? (origin, cb) => {
+          if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+          cb(new Error(`CORS: origin '${origin}' not allowed`));
+        }
+      : true, // allow all when env var is unset
+  })
+);
 app.use(express.json());
 
 // ── Routes ──────────────────────────────────────────────────────────────────
