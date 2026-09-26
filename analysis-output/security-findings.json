@@ -1,0 +1,156 @@
+[
+  {
+    "file": "legacy-app/LegacyApp/Web.config",
+    "line": 22,
+    "issue": "Hardcoded database password in connection string",
+    "severity": "high",
+    "relevant_standard": "PCI-DSS 3.2.1, FedRAMP SC-28, HIPAA §164.312(a)(2)(iv)"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Web.config",
+    "line": 32,
+    "issue": "Hardcoded API key in appSettings",
+    "severity": "high",
+    "relevant_standard": "PCI-DSS 2.2.4, FedRAMP SC-28"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Web.config",
+    "line": 48,
+    "issue": "WCF basicHttpBinding with no transport security — credentials and data transmitted in cleartext",
+    "severity": "high",
+    "relevant_standard": "PCI-DSS 4.1, FedRAMP SC-8, HIPAA §164.312(e)(1)"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Web.config",
+    "line": 36,
+    "issue": "compilation debug=true exposes detailed error pages and stack traces in production",
+    "severity": "high",
+    "relevant_standard": "OWASP A09:2021, FedRAMP SI-11"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Web.config",
+    "line": 58,
+    "issue": "WCF serviceMetadata httpGetEnabled=true exposes full WSDL service contract to public",
+    "severity": "high",
+    "relevant_standard": "OWASP A09:2021, FedRAMP SI-11"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Web.config",
+    "line": 59,
+    "issue": "WCF includeExceptionDetailInFaults=true leaks server-side stack traces to clients",
+    "severity": "high",
+    "relevant_standard": "OWASP A09:2021, FedRAMP SI-11"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Web.config",
+    "line": 38,
+    "issue": "FormsAuthentication configured without requireSSL=true — auth cookie transmitted over plain HTTP",
+    "severity": "medium",
+    "relevant_standard": "OWASP A07:2021, PCI-DSS 8.1.4"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 42,
+    "issue": "Details action missing [Authorize] attribute — accessible to unauthenticated callers",
+    "severity": "high",
+    "relevant_standard": "OWASP A01:2021, FedRAMP AC-3"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 55,
+    "issue": "Place action missing [Authorize] attribute — accessible to unauthenticated callers",
+    "severity": "high",
+    "relevant_standard": "OWASP A01:2021, FedRAMP AC-3"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 58,
+    "issue": "No input validation on customerId and total parameters — negative or extreme values accepted without range checks",
+    "severity": "medium",
+    "relevant_standard": "OWASP A01:2021, OWASP A05:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 44,
+    "issue": "Cookie value read without validation and no Secure/HttpOnly flags enforced on the cookie",
+    "severity": "medium",
+    "relevant_standard": "PCI-DSS 6.5.10, OWASP A05:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 61,
+    "issue": "REMOTE_ADDR read from ServerVariables without proxy trust validation — client IP trivially spoofable",
+    "severity": "medium",
+    "relevant_standard": "OWASP A01:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 37,
+    "issue": "ViewBag.Username passed to view without explicit HTML encoding — potential reflected XSS",
+    "severity": "medium",
+    "relevant_standard": "OWASP A03:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 81,
+    "issue": "Raw exception message added to ModelState and returned to client — server internals disclosed",
+    "severity": "high",
+    "relevant_standard": "OWASP A09:2021, FedRAMP AU-12"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 71,
+    "issue": "Application-level state used as shared cache with coarse lock — no expiry, data loss in web farm",
+    "severity": "low",
+    "relevant_standard": "OWASP A05:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Controllers/OrdersController.cs",
+    "line": 22,
+    "issue": "Concrete service instantiated directly with new — bypasses dependency injection, untestable",
+    "severity": "low",
+    "relevant_standard": "OWASP A05:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Services/OrderService.cs",
+    "line": 19,
+    "issue": "WCF InstanceContextMode.Single combined with ConcurrencyMode.Single — shared mutable state race condition across clients",
+    "severity": "high",
+    "relevant_standard": "OWASP A01:2021, FedRAMP SC-2"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Services/OrderService.cs",
+    "line": 47,
+    "issue": "Exception swallowed and null returned to caller — error indistinguishable from not-found, silent failure",
+    "severity": "medium",
+    "relevant_standard": "OWASP A09:2021, FedRAMP AU-12"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Services/OrderService.cs",
+    "line": 23,
+    "issue": "log4net 1.2.10 is deprecated and unsupported on .NET Core — no security patches, log injection risk",
+    "severity": "medium",
+    "relevant_standard": "OWASP A09:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Services/OrderService.cs",
+    "line": 86,
+    "issue": "DateTime.Now used instead of DateTime.UtcNow — audit timestamps inconsistent across server time zones",
+    "severity": "low",
+    "relevant_standard": "OWASP A09:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/Models/AppDbContext.cs",
+    "line": 33,
+    "issue": "N+1 lazy-loading query pattern with no pagination — unbounded database call count enables resource exhaustion",
+    "severity": "medium",
+    "relevant_standard": "OWASP A05:2021"
+  },
+  {
+    "file": "legacy-app/LegacyApp/LegacyApp.csproj",
+    "line": 23,
+    "issue": "Full debug symbols (DebugType=full) compiled into build artifact — internal type and method metadata exposed",
+    "severity": "medium",
+    "relevant_standard": "OWASP A09:2021"
+  }
+]
