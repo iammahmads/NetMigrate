@@ -1,7 +1,7 @@
-const BASE = import.meta.env.VITE_API_BASE ?? "/api/analysis";
+const BASE = import.meta.env.VITE_API_BASE;
 
 async function get(path) {
-  const res = await fetch(`${BASE}${path}`);
+  const res = await fetch(`${BASE}/api/analysis${path}`);
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error || `HTTP ${res.status}`);
@@ -10,7 +10,7 @@ async function get(path) {
 }
 
 async function getText(path) {
-  const res = await fetch(`${BASE}${path}`);
+  const res = await fetch(`${BASE}/api/analysis${path}`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.text();
 }
@@ -27,7 +27,7 @@ async function analyzeUpload(file, onAbort) {
   const controller = new AbortController();
   if (onAbort) onAbort(controller);
 
-  const res = await fetch("/api/upload/analyze", {
+  const res = await fetch(`${BASE}/api/upload/analyze`, {
     method: "POST",
     body: formData,
     signal: controller.signal,
@@ -49,7 +49,7 @@ async function retryStep(step, file) {
   const formData = new FormData();
   formData.append("zipfile", file);
 
-  const res = await fetch(`/api/upload/analyze/${step}`, {
+  const res = await fetch(`${BASE}/api/upload/analyze/${step}`, {
     method: "POST",
     body: formData,
   });
