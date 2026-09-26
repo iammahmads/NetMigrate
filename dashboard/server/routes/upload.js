@@ -40,7 +40,7 @@ const ALLOWED_EXTENSIONS = new Set([".cs", ".csproj", ".sln", ".config", ".json"
 /** @type {Map<string, number[]>} IP → sorted list of request timestamps (ms) */
 const rateLimitMap = new Map();
 const RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
-const RATE_MAX = 3;
+const RATE_MAX = 6;
 
 function checkRateLimit(ip) {
   const now = Date.now();
