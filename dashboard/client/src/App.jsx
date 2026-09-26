@@ -6,6 +6,7 @@ import MigrationPlan from "./pages/MigrationPlan.jsx";
 import SecurityFindings from "./pages/SecurityFindings.jsx";
 import DependencyGraph from "./pages/DependencyGraph.jsx";
 import ModernizedSamples from "./pages/ModernizedSamples.jsx";
+import AnalyzeUpload from "./pages/AnalyzeUpload.jsx";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="security" element={<SecurityFindings />} />
           <Route path="dependency-graph" element={<DependencyGraph />} />
           <Route path="samples" element={<ModernizedSamples />} />
+          <Route path="analyze" element={<AnalyzeUpload />} />
         </Route>
       </Routes>
     </BrowserRouter>

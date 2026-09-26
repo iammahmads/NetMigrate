@@ -2,11 +2,14 @@ import { Router } from "express";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import "dotenv/config"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // /analysis-output is two levels up from dashboard/server/routes/
-const ANALYSIS_DIR = path.resolve(__dirname, "../../../analysis-output");
+const ANALYSIS_DIR = process.env.ANALYSIS_DIR
+  ? path.resolve(process.env.ANALYSIS_DIR)
+  : path.resolve(__dirname, "../../../analysis-output");
 
 const router = Router();
 

@@ -3,6 +3,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import analysisRouter from "./routes/analysis.js";
+import uploadRouter from "./routes/upload.js";
 import 'dotenv/config';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -18,8 +19,8 @@ app.use(express.json());
 // Analysis data endpoints — reads files from /analysis-output
 app.use("/api/analysis", analysisRouter);
 
-// Placeholder for future upload endpoints (not yet implemented)
-// app.use("/api/upload", uploadRouter);
+// Upload & analyze your own code
+app.use("/api/upload", uploadRouter);
 
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get("/api/health", (_req, res) => {

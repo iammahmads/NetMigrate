@@ -7,6 +7,7 @@ const NAV = [
   { to: "/security",          icon: "🔒", label: "Security" },
   { to: "/dependency-graph",  icon: "🔗", label: "Dependency Graph" },
   { to: "/samples",           icon: "✨", label: "Code Samples" },
+  { to: "/analyze",           icon: "⬆️", label: "Analyze Your Code" },
 ];
 
 export default function Layout() {
@@ -18,15 +19,21 @@ export default function Layout() {
           <p>.NET Modernization Dashboard</p>
         </div>
         <nav className="sidebar-nav">
-          {NAV.map(({ to, icon, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              className={({ isActive }) => (isActive ? "active" : undefined)}
-            >
-              <span className="nav-icon">{icon}</span>
-              {label}
-            </NavLink>
+          {NAV.map(({ to, icon, label }, idx) => (
+            <>
+              {/* Divider before the "Analyze Your Code" entry */}
+              {idx === NAV.length - 1 && (
+                <hr key="divider" className="nav-divider" />
+              )}
+              <NavLink
+                key={to}
+                to={to}
+                className={({ isActive }) => (isActive ? "active" : undefined)}
+              >
+                <span className="nav-icon">{icon}</span>
+                {label}
+              </NavLink>
+            </>
           ))}
         </nav>
       </aside>

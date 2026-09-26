@@ -13,12 +13,16 @@ RUN curl -fsSL https://bob.ibm.com/download/bobshell.sh -o /tmp/bobshell.sh \
 
 WORKDIR /app
 
-COPY package*.json ./
+# Server app code
+COPY dashboard/server/package*.json ./
 RUN npm install
+COPY dashboard/server/ .
 
-COPY . .
+# Bake in Bob's generated analysis artifacts so the container is
+# self-contained and doesn't depend on the host filesystem at deploy time
+COPY analysis-output ./analysis-output
 
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY dashboard/server/docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
