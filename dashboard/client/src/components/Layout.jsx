@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
 const NAV = [
@@ -20,20 +21,19 @@ export default function Layout() {
         </div>
         <nav className="sidebar-nav">
           {NAV.map(({ to, icon, label }, idx) => (
-            <>
+            <Fragment key={to}>
               {/* Divider before the "Analyze Your Code" entry */}
               {idx === NAV.length - 1 && (
-                <hr key="divider" className="nav-divider" />
+                <hr className="nav-divider" />
               )}
               <NavLink
-                key={to}
                 to={to}
                 className={({ isActive }) => (isActive ? "active" : undefined)}
               >
                 <span className="nav-icon">{icon}</span>
                 {label}
               </NavLink>
-            </>
+            </Fragment>
           ))}
         </nav>
       </aside>
