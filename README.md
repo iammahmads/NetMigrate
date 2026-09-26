@@ -17,25 +17,25 @@ One wrong assumption can cascade into months of rework.
 
 NetMigrate uses Bob to automate the four hardest parts of any migration engagement:
 
-| Verb | What NetMigrate does |
-|------|----------------------|
-| **Explain** existing code | Reads every module in the legacy app and produces plain-English summaries, connection maps, and a rendered dependency graph — no prior codebase knowledge required. |
-| **Identify** modernization opportunities | Scores each module with a risk tier (LOW / MEDIUM / HIGH), recommended .NET replacement, and effort estimate, then orders them into a safe migration sequence. |
-| **Generate** updated components | Produces before-and-after code samples for the three most common migration patterns (synchronous → async, XML config → `appsettings.json`, `WebClient` → `HttpClient`). |
-| **Reduce** migration effort | Packages all findings in a live dashboard so the whole team can explore the analysis, filter security findings, and review modernized samples — without re-running any analysis. |
+| Verb                                     | What NetMigrate does                                                                                                                                                             |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Explain** existing code                | Reads every module in the legacy app and produces plain-English summaries, connection maps, and a rendered dependency graph — no prior codebase knowledge required.              |
+| **Identify** modernization opportunities | Scores each module with a risk tier (LOW / MEDIUM / HIGH), recommended .NET replacement, and effort estimate, then orders them into a safe migration sequence.                   |
+| **Generate** updated components          | Produces before-and-after code samples for the three most common migration patterns (synchronous → async, XML config → `appsettings.json`, `WebClient` → `HttpClient`).          |
+| **Reduce** migration effort              | Packages all findings in a live dashboard so the whole team can explore the analysis, filter security findings, and review modernized samples — without re-running any analysis. |
 
 ---
 
 ## Bob Features Used
 
-| Feature | How it was used in this project |
-|---------|----------------------------------|
-| **Plan Mode** | Drafted analysis plans (`analysis-plan.md`, `codebase-explanation-plan.md`, `security-audit-plan.md`) before any code was written. |
-| **Agent Mode** | Executed each analysis step end-to-end: reading source files, generating JSON artifacts, scaffolding the dashboard. |
-| **Code Mode** | Wrote and iterated on the React + Express dashboard, the API routes, and the modernized code samples. |
-| **Subagents** | Parallelized independent analysis tasks (e.g., security scan while migration plan was being built) to keep each agent context focused. |
+| Feature                     | How it was used in this project                                                                                                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Plan Mode**               | Drafted analysis plans (`analysis-plan.md`, `codebase-explanation-plan.md`, `security-audit-plan.md`) before any code was written.         |
+| **Agent Mode**              | Executed each analysis step end-to-end: reading source files, generating JSON artifacts, scaffolding the dashboard.                        |
+| **Code Mode**               | Wrote and iterated on the React + Express dashboard, the API routes, and the modernized code samples.                                      |
+| **Subagents**               | Parallelized independent analysis tasks (e.g., security scan while migration plan was being built) to keep each agent context focused.     |
 | **`/init` project context** | Bootstrapped `AGENTS.md` with schema contracts and project rules so every subsequent session inherited the same conventions automatically. |
-| **Document understanding** | Parsed the legacy `.config` and `.aspx` files to extract configuration patterns, route structures, and data-access concerns. |
+| **Document understanding**  | Parsed the legacy `.config` and `.aspx` files to extract configuration patterns, route structures, and data-access concerns.               |
 
 ---
 
@@ -69,10 +69,10 @@ NetMigrate uses Bob to automate the four hardest parts of any migration engageme
 ### Development (two terminals)
 
 ```bash
-# Terminal 1 — API server on :3001
+# Terminal 1 — API server on :3000
 cd dashboard/server && npm install && npm run dev
 
-# Terminal 2 — React dev server on :5173 (proxies /api to :3001)
+# Terminal 2 — React dev server on :5173 (proxies /api to :3000)
 cd dashboard/client && npm install && npm run dev
 ```
 
@@ -85,18 +85,18 @@ cd dashboard/client && npm install && npm run build
 cd dashboard/server && npm install && npm start
 ```
 
-Open **http://localhost:3001**
+Open **http://localhost:3000**
 
 ### Dashboard views
 
-| View | Route | Description |
-|------|-------|-------------|
-| Overview | `/overview` | Summary stats, risk breakdown, migration order |
-| Codebase | `/codebase` | Plain-English module explanations |
-| Migration Plan | `/migration` | Sortable table with risk/effort badges |
-| Security | `/security` | Filterable security findings |
-| Dependency Graph | `/dependency-graph` | Rendered Mermaid flowchart |
-| Code Samples | `/samples` | Before / After / Rationale tabs |
+| View             | Route               | Description                                    |
+| ---------------- | ------------------- | ---------------------------------------------- |
+| Overview         | `/overview`         | Summary stats, risk breakdown, migration order |
+| Codebase         | `/codebase`         | Plain-English module explanations              |
+| Migration Plan   | `/migration`        | Sortable table with risk/effort badges         |
+| Security         | `/security`         | Filterable security findings                   |
+| Dependency Graph | `/dependency-graph` | Rendered Mermaid flowchart                     |
+| Code Samples     | `/samples`          | Before / After / Rationale tabs                |
 
 ---
 
@@ -104,12 +104,12 @@ Open **http://localhost:3001**
 
 `/bob_sessions/` contains screenshots of every Bob task session used to build this project:
 
-| File | Session |
-|------|---------|
-| `ai-architect_01_bootstrap-project-context.png` | `/init` + AGENTS.md setup |
-| `ai-architect_02_Generate-the-sample-legacy-.NET-app.png` | Legacy app scaffolding |
-| `ai-architect_03_Codebase-explanation.png` | Module explanation analysis |
-| `ai-architect_04_Dependency-graph-and-migration-plan.png` | Graph + migration plan generation |
-| `ai-architect_05_Security-and-compliance-findings.png` | Security audit |
-| `ai-architect_06_Generate-modernized-code-(before-and-after).png` | Code modernization samples |
-| `ai-architect_07_Build-the-dashboard.png` | Dashboard scaffolding & iteration |
+| File                                                              | Session                           |
+| ----------------------------------------------------------------- | --------------------------------- |
+| `ai-architect_01_bootstrap-project-context.png`                   | `/init` + AGENTS.md setup         |
+| `ai-architect_02_Generate-the-sample-legacy-.NET-app.png`         | Legacy app scaffolding            |
+| `ai-architect_03_Codebase-explanation.png`                        | Module explanation analysis       |
+| `ai-architect_04_Dependency-graph-and-migration-plan.png`         | Graph + migration plan generation |
+| `ai-architect_05_Security-and-compliance-findings.png`            | Security audit                    |
+| `ai-architect_06_Generate-modernized-code-(before-and-after).png` | Code modernization samples        |
+| `ai-architect_07_Build-the-dashboard.png`                         | Dashboard scaffolding & iteration |
