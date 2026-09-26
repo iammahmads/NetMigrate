@@ -20,9 +20,9 @@ app.use(
   cors({
     origin: allowedOrigins.length
       ? (origin, cb) => {
-          if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-          cb(new Error(`CORS: origin '${origin}' not allowed`));
-        }
+        if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+        cb(new Error(`CORS: origin '${origin}' not allowed`));
+      }
       : true, // allow all when env var is unset
   })
 );
@@ -51,10 +51,10 @@ app.listen(PORT, () => {
   console.log(`NetMigrate API server listening on http://localhost:${PORT}`);
 
   // ── Keep-alive ping every 5 minutes ────────────────────────────────────────
-  const origin = process.env.ORIGIN;
-  if (origin) {
+  const HOST = process.env.HOST;
+  if (HOST) {
     setInterval(() => {
-      fetch(`${origin}/api/health`)
+      fetch(`${HOST}/api/health`)
         .then((r) => console.log(`[keep-alive] /api/health → ${r.status}`))
         .catch((err) => console.error("[keep-alive] ping failed:", err.message));
     }, 5 * 60 * 1000);
