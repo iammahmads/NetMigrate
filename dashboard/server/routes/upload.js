@@ -407,7 +407,7 @@ must have exactly these fields:
 const PROMPT_MIGRATION_PLAN = `
 Analyze the application in the current directory.
 
-Return your answer as a JSON array inside a fenced code block with exactly two top-level keys:
+Return your answer as a JSON array inside a fenced code block. The output must have exactly two top-level keys:
 "summary": {
   "total_estimated_effort": string,
   "high_risk_count": number,

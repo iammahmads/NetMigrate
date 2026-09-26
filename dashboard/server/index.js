@@ -12,18 +12,27 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ── Middleware ──────────────────────────────────────────────────────────────
-const allowedOrigins = process.env.CORS_ORIGINS
-  ? process.env.CORS_ORIGINS.split(",").map((o) => o.trim())
-  : [];
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
+  ? (() => {
+    try {
+      // Try to parse as JSON array
+      const parsed = JSON.parse(process.env.ALLOWED_ORIGINS);
+      if (Array.isArray(parsed)) return parsed;
+      // If not array, fallback to comma split
+      return process.env.ALLOWED_ORIGINS.split(",");
+    } catch {
+      // If not JSON, fallback to comma split
+      return process.env.ALLOWED_ORIGINS.split(",");
+    }
+  })()
+  : ["https://netmigrate.onrender.com", "http://localhost:5173"];
 
 app.use(
   cors({
-    origin: allowedOrigins.length
-      ? (origin, cb) => {
-        if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-        cb(new Error(`CORS: origin '${origin}' not allowed`));
-      }
-      : true, // allow all when env var is unset
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin: ALLOWED_ORIGINS,
+    //credentials: true,
   })
 );
 app.use(express.json());
