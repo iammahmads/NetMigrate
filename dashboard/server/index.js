@@ -27,6 +27,7 @@ const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
   })()
   : ["https://netmigrate.onrender.com", "http://localhost:5173"];
 
+console.log("ALLOWED_ORIGINS: ", ALLOWED_ORIGINS)
 app.use(
   cors({
     allowedHeaders: ["Content-Type", "Authorization"],
