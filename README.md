@@ -87,6 +87,22 @@ cd dashboard/server && npm install && npm start
 
 Open **http://localhost:3000**
 
+### Docker
+
+**Prerequisites:** Docker
+
+```bash
+# Build the image (run from repo root)
+docker build -f dashboard/server/Dockerfile -t netmigrate-backend .
+
+# Run the container
+docker run --rm --env-file ./dashboard/server/.env \
+  -p 3000:3000 \
+  netmigrate-backend
+```
+
+Open **http://localhost:3000**
+
 ### Dashboard views
 
 | View             | Route               | Description                                    |
@@ -104,12 +120,29 @@ Open **http://localhost:3000**
 
 `/bob_sessions/` contains screenshots of every Bob task session used to build this project:
 
-| File                                                              | Session                           |
-| ----------------------------------------------------------------- | --------------------------------- |
-| `ai-architect_01_bootstrap-project-context.png`                   | `/init` + AGENTS.md setup         |
-| `ai-architect_02_Generate-the-sample-legacy-.NET-app.png`         | Legacy app scaffolding            |
-| `ai-architect_03_Codebase-explanation.png`                        | Module explanation analysis       |
-| `ai-architect_04_Dependency-graph-and-migration-plan.png`         | Graph + migration plan generation |
-| `ai-architect_05_Security-and-compliance-findings.png`            | Security audit                    |
-| `ai-architect_06_Generate-modernized-code-(before-and-after).png` | Code modernization samples        |
-| `ai-architect_07_Build-the-dashboard.png`                         | Dashboard scaffolding & iteration |
+### 1 — Bootstrap project context (`/init` + AGENTS.md setup)
+![Bootstrap project context](bob_sessions/ai-architect_01_bootstrap-project-context.png)
+
+### 2 — Generate the sample legacy .NET app
+![Generate legacy app](bob_sessions/ai-architect_02_Generate-the-sample-legacy-.NET-app.png)
+
+### 3 — Codebase explanation
+![Codebase explanation](bob_sessions/ai-architect_03_Codebase-explanation.png)
+
+### 4 — Dependency graph and migration plan
+![Dependency graph and migration plan](bob_sessions/ai-architect_04_Dependency-graph-and-migration-plan.png)
+
+### 5 — Security and compliance findings
+![Security and compliance findings](bob_sessions/ai-architect_05_Security-and-compliance-findings.png)
+
+### 6 — Generate modernized code (before and after)
+![Generate modernized code](bob_sessions/ai-architect_06_Generate-modernized-code-(before-and-after).png)
+
+### 7 — Build the dashboard
+![Build the dashboard](bob_sessions/ai-architect_07_Build-the-dashboard.png)
+
+### 8 — README and submission polish
+![README and submission polish](bob_sessions/ai-architect_08_README-and-submission-polish.png)
+
+### 9 — Bob shell setup for live upload
+![Bob shell setup for live upload](bob_sessions/ai-architect_09_Bob-shell-setup-for-live-upload.png)
